@@ -1,4 +1,4 @@
-## My solution to Problem #54 from Project Euler
+## Solution to Problem #54 from Project Euler
 
 Suits, ranks and hand rankings have a predefined set of values and are well presented with Enums. An order (rating) is explicitly assigned to each member of ranks and hand rankings enums and is used by the corresponding comparators. 
 Rank and suit must be specified to create a playing card. The seniority of the card is determined by its rank. 
@@ -20,7 +20,7 @@ By defining the hand ranking along with its value, we can determine the winner.
 First hand rankings are compared. If they tie, then the values the rankings are made up of are compared, starting with the highest rank if there are several values (two pairs).
 If there is a match again, pairs of cards corresponding to the rating in the hand are compared (the first in value in a hand, the second in value in a hand etc.).
 
-The following OOP concepts were used in this solution:
+The following OOP ideas were used in this solution:
 - Creating classes with a clear and single area of responsibility
 - Implementations of the core interfaces (Comparable and Comparator)
 - Encapsulation
