@@ -35,4 +35,24 @@ class GameTest {
         assertEquals(expectedResult, Game.determineHandRanking(hand));
     }
 
+    @Test
+    void secondShouldWin() {
+        Hand handOne = new Hand();
+        handOne.addCard(new Card(Rank.KING, Suit.CLUBS));
+        handOne.addCard(new Card(Rank.DEUCE, Suit.HEARTS));
+        handOne.addCard(new Card(Rank.JACK, Suit.CLUBS));
+        handOne.addCard(new Card(Rank.KING, Suit.DIAMONDS));
+        handOne.addCard(new Card(Rank.DEUCE, Suit.SPADES));
+
+        Hand handTwo = new Hand();
+        handTwo.addCard(new Card(Rank.SIX, Suit.SPADES));
+        handTwo.addCard(new Card(Rank.SEVEN, Suit.SPADES));
+        handTwo.addCard(new Card(Rank.THREE, Suit.SPADES));
+        handTwo.addCard(new Card(Rank.FIVE, Suit.SPADES));
+        handTwo.addCard(new Card(Rank.FOUR, Suit.SPADES));
+
+        Game game = new Game(handOne, handTwo);
+        assertEquals(Players.SECOND, game.chooseWinner());
+    }
+
 }
