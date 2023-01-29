@@ -6,8 +6,6 @@ public class Poker {
 
     public static void main(String[] args) {
 
-        CombinationsLoader.loadCombinations();
-
         int winsFirst = 0;
         int winsSecond = 0;
 

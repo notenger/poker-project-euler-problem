@@ -41,6 +41,7 @@ public class CombinationsLoader {
     }
 
     public static List<Hand[]> getPlays() {
+        if (plays.isEmpty()) loadCombinations();
         return plays;
     }
 }
