@@ -79,7 +79,7 @@ public class Game {
         }
 
         if (areSameSuit(hand)) {
-            return Collections.singletonMap(HandRankings.FOUR_OF_A_KIND, List.of());
+            return Collections.singletonMap(HandRankings.FLUSH, List.of());
         }
 
         if (areConsecutive(hand)) {
@@ -123,7 +123,7 @@ public class Game {
     };
     public static Map<Rank, Long> getFrequencyMap(Hand hand) {
         return hand.getCards().stream()
-                .collect( Collectors.groupingBy( Card::getRank, Collectors.counting() ));
+                .collect(Collectors.groupingBy(Card::getRank, Collectors.counting()));
     }
     public static Rank getMaxRank(Hand hand) {
         return Collections.max(hand.getCards()).getRank();
