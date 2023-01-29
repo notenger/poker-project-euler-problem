@@ -55,4 +55,16 @@ class GameTest {
         assertEquals(Players.SECOND, game.chooseWinner());
     }
 
+    @Test
+    void ranksShouldBeConsecutive() {
+        Hand hand = new Hand();
+        hand.addCard(new Card(Rank.KING, Suit.CLUBS));
+        hand.addCard(new Card(Rank.QUEEN, Suit.HEARTS));
+        hand.addCard(new Card(Rank.JACK, Suit.CLUBS));
+        hand.addCard(new Card(Rank.TEN, Suit.DIAMONDS));
+        hand.addCard(new Card(Rank.NINE, Suit.SPADES));
+
+        assertTrue(Game.areConsecutive(hand));
+    }
+
 }
