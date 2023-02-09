@@ -9,13 +9,19 @@ class CardTest {
 
     @Test
     void cardShouldBeJackSpades() {
-        Card card = Card.createCard("JS");
+        Card card = new Card(
+            Rank.fromChar('J'),
+            Suit.fromChar('S')
+        );
         assertEquals(new Card(Rank.JACK, Suit.SPADES), card);
     }
 
     @Test
     void cardShouldBeAceHearts() {
-        Card card = Card.createCard("AH");
+        Card card = new Card(
+                Rank.fromChar('A'),
+                Suit.fromChar('H')
+        );
         assertEquals(new Card(Rank.ACE, Suit.HEARTS), card);
     }
 

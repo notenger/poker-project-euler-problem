@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CombinationsLoader {
+public class PlayHistory {
 
     private static List<Hand[]> plays = new ArrayList<>();
 
@@ -20,14 +20,18 @@ public class CombinationsLoader {
             while (line != null) {
                 String[] cardsLine = line.split(" ");
 
-                Hand[] hands = {new Hand(), new Hand()};
+                List<Card> cardsOfFirstPlayer = new ArrayList<>();
+                List<Card> cardsOfSecondPlayer = new ArrayList<>();
 
                 for (int i = 0; i < 10; i++) {
-                    Card card = Card.createCard(cardsLine[i]);
-                    if (i < 5) hands[0].addCard(card);
-                    else hands[1].addCard(card);
+                    Card card = new Card(
+                        Rank.fromChar(cardsLine[i].charAt(0)),
+                        Suit.fromChar(cardsLine[i].charAt(1))
+                    );
+                    if (i < 5) cardsOfFirstPlayer.add(card);
+                    else cardsOfSecondPlayer.add(card);
                 }
-
+                Hand[] hands = {new Hand(cardsOfFirstPlayer), new Hand(cardsOfSecondPlayer)};
                 plays.add(hands);
 
                 line = reader.readLine();

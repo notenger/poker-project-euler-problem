@@ -1,6 +1,8 @@
 package com.rimsha.poker;
 
-public enum HandRankings {
+import java.util.Comparator;
+
+public enum HandRanking implements Comparator<HandRanking> {
 
     HIGH_CARD(0),
     ONE_PAIR(1),
@@ -15,9 +17,14 @@ public enum HandRankings {
 
     private int order;
 
-    HandRankings(final int order) {
+    HandRanking(final int order) {
         this.order = order;
     }
 
     public int getOrder() { return order; }
+
+    @Override
+    public int compare(HandRanking hr1, HandRanking hr2) {
+        return hr1.getOrder() - hr2.getOrder();
+    }
 }

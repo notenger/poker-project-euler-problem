@@ -1,6 +1,7 @@
 package com.rimsha.poker;
+import java.util.Optional;
 
-import java.util.*;
+import static com.rimsha.poker.Player.*;
 
 public class Poker {
 
@@ -9,20 +10,25 @@ public class Poker {
         int winsFirst = 0;
         int winsSecond = 0;
 
-        for (Hand[] play : CombinationsLoader.getPlays()) {
-            Hand handOne = play[0];
-            Hand handTwo = play[1];
+        for (Hand[] play : PlayHistory.getPlays()) {
 
-            Game game = new Game(handOne, handTwo);
-            Players winner = game.chooseWinner();
-            if (winner == Players.FIRST) winsFirst++;
-            if (winner == Players.SECOND) winsSecond++;
+            FIRST.setHand(play[0]);
+            SECOND.setHand(play[1]);
+
+            Game game = new Game(FIRST, SECOND);
+            Optional<Player> winner = game.chooseWinner();
+            if (winner.isPresent()) {
+                if (winner.get() == FIRST) winsFirst++;
+                if (winner.get() == SECOND) winsSecond++;
+            }
+            else {
+                System.out.println("There is no clear winner.");
+            }
         }
 
         System.out.println(
                 String.format("The first player won %s times\nThe second player won %s times", winsFirst, winsSecond)
         );
-
     }
 
 }

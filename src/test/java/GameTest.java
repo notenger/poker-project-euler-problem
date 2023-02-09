@@ -1,6 +1,8 @@
 import com.rimsha.poker.*;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,61 +12,84 @@ import java.util.Map;
 class GameTest {
 
     @Test
-    void handRankingShouldBeFullHouseTens() {
-        Hand hand = new Hand();
-        hand.addCard(new Card(Rank.FOUR, Suit.CLUBS));
-        hand.addCard(new Card(Rank.TEN, Suit.HEARTS));
-        hand.addCard(new Card(Rank.TEN, Suit.CLUBS));
-        hand.addCard(new Card(Rank.FOUR, Suit.DIAMONDS));
-        hand.addCard(new Card(Rank.TEN, Suit.SPADES));
+    void handRankingShouldBeFullHouseTens() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        List<Card> cards = List.of(
+            new Card(Rank.FOUR, Suit.CLUBS),
+            new Card(Rank.TEN, Suit.HEARTS),
+            new Card(Rank.TEN, Suit.CLUBS),
+            new Card(Rank.FOUR, Suit.DIAMONDS),
+            new Card(Rank.TEN, Suit.SPADES)
+        );
+        Hand hand = new Hand(cards);
 
-        Map<HandRankings, List<Rank>> expectedResult = Collections.singletonMap(HandRankings.FULL_HOUSE, List.of(Rank.TEN));
-        assertEquals(expectedResult, Game.determineHandRanking(hand));
+        Method method = Hand.class.getDeclaredMethod("determineHandRanking");
+        method.setAccessible(true);
+
+        Map<HandRanking, List<Rank>> expectedResult = Collections.singletonMap(HandRanking.FULL_HOUSE, List.of(Rank.TEN));
+        assertEquals(expectedResult, method.invoke(hand, new Object[]{}));
     }
 
     @Test
-    void handRankingShouldBeTwoPairsKingsAndJacks() {
-        Hand hand = new Hand();
-        hand.addCard(new Card(Rank.KING, Suit.CLUBS));
-        hand.addCard(new Card(Rank.DEUCE, Suit.HEARTS));
-        hand.addCard(new Card(Rank.JACK, Suit.CLUBS));
-        hand.addCard(new Card(Rank.KING, Suit.DIAMONDS));
-        hand.addCard(new Card(Rank.JACK, Suit.SPADES));
+    void handRankingShouldBeTwoPairsKingsAndJacks() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        List<Card> cards = List.of(
+            new Card(Rank.KING, Suit.CLUBS),
+            new Card(Rank.DEUCE, Suit.HEARTS),
+            new Card(Rank.JACK, Suit.CLUBS),
+            new Card(Rank.KING, Suit.DIAMONDS),
+            new Card(Rank.JACK, Suit.SPADES)
+        );
+        Hand hand = new Hand(cards);
 
-        Map<HandRankings, List<Rank>> expectedResult = Collections.singletonMap(HandRankings.TWO_PAIRS, List.of(Rank.KING, Rank.JACK));
-        assertEquals(expectedResult, Game.determineHandRanking(hand));
+        Method method = Hand.class.getDeclaredMethod("determineHandRanking");
+        method.setAccessible(true);
+
+        Map<HandRanking, List<Rank>> expectedResult = Collections.singletonMap(HandRanking.TWO_PAIRS, List.of(Rank.KING, Rank.JACK));
+        assertEquals(expectedResult, method.invoke(hand, new Object[]{}));
     }
 
     @Test
     void secondShouldWin() {
-        Hand handOne = new Hand();
-        handOne.addCard(new Card(Rank.KING, Suit.CLUBS));
-        handOne.addCard(new Card(Rank.DEUCE, Suit.HEARTS));
-        handOne.addCard(new Card(Rank.JACK, Suit.CLUBS));
-        handOne.addCard(new Card(Rank.KING, Suit.DIAMONDS));
-        handOne.addCard(new Card(Rank.DEUCE, Suit.SPADES));
+        List<Card> cardsFirst = List.of(
+            new Card(Rank.KING, Suit.CLUBS),
+            new Card(Rank.DEUCE, Suit.HEARTS),
+            new Card(Rank.JACK, Suit.CLUBS),
+            new Card(Rank.KING, Suit.DIAMONDS),
+            new Card(Rank.DEUCE, Suit.SPADES)
+        );
 
-        Hand handTwo = new Hand();
-        handTwo.addCard(new Card(Rank.SIX, Suit.SPADES));
-        handTwo.addCard(new Card(Rank.SEVEN, Suit.SPADES));
-        handTwo.addCard(new Card(Rank.THREE, Suit.SPADES));
-        handTwo.addCard(new Card(Rank.FIVE, Suit.SPADES));
-        handTwo.addCard(new Card(Rank.FOUR, Suit.SPADES));
+        Hand handOne = new Hand(cardsFirst);
 
-        Game game = new Game(handOne, handTwo);
-        assertEquals(Players.SECOND, game.chooseWinner());
+        List<Card> cardsSecond = List.of(
+            new Card(Rank.SIX, Suit.SPADES),
+            new Card(Rank.SEVEN, Suit.SPADES),
+            new Card(Rank.THREE, Suit.SPADES),
+            new Card(Rank.FIVE, Suit.SPADES),
+            new Card(Rank.FOUR, Suit.SPADES)
+        );
+
+        Hand handTwo = new Hand(cardsSecond);
+
+        Player.FIRST.setHand(handOne);
+        Player.SECOND.setHand(handTwo);
+
+        Game game = new Game(Player.FIRST, Player.SECOND);
+        assertEquals(Player.SECOND, game.chooseWinner());
     }
 
     @Test
-    void ranksShouldBeConsecutive() {
-        Hand hand = new Hand();
-        hand.addCard(new Card(Rank.KING, Suit.CLUBS));
-        hand.addCard(new Card(Rank.QUEEN, Suit.HEARTS));
-        hand.addCard(new Card(Rank.JACK, Suit.CLUBS));
-        hand.addCard(new Card(Rank.TEN, Suit.DIAMONDS));
-        hand.addCard(new Card(Rank.NINE, Suit.SPADES));
+    void ranksShouldBeConsecutive() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        List<Card> cards = List.of(
+            new Card(Rank.KING, Suit.CLUBS),
+            new Card(Rank.QUEEN, Suit.HEARTS),
+            new Card(Rank.JACK, Suit.CLUBS),
+            new Card(Rank.TEN, Suit.DIAMONDS),
+            new Card(Rank.NINE, Suit.SPADES)
+        );
 
-        assertTrue(Game.areConsecutive(hand));
+        Hand hand = new Hand(cards);
+        Method method = Hand.class.getDeclaredMethod("areConsecutive");
+        method.setAccessible(true);
+        assertEquals(true, method.invoke(hand, new Object[]{}));
     }
 
 }

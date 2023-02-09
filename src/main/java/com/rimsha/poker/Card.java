@@ -13,17 +13,6 @@ public class Card implements Comparable<Card> {
         this.suit = suit;
     }
 
-    public static Card createCard(String cardSign) {
-
-        Suit suit = Arrays.stream(Suit.values()).filter(s -> s.toString().charAt(0) == cardSign.charAt(1))
-                .findFirst().get();
-        Rank rank = Arrays.stream(Rank.values()).filter(r -> r.toSign() == cardSign.charAt(0))
-                .findFirst().get();
-
-        Card card = new Card(rank, suit);
-        return card;
-    }
-
     @Override
     public int compareTo(Card o) {
         return rank.getOrder() - o.getRank().getOrder();

@@ -1,6 +1,8 @@
 package com.rimsha.poker;
 
-public enum Rank {
+import java.util.Comparator;
+
+public enum Rank implements Comparator<Rank> {
     DEUCE(0), THREE(1), FOUR(2),
     FIVE(3), SIX(4), SEVEN(5),
     EIGHT(6), NINE(7), TEN(8),
@@ -16,17 +18,26 @@ public enum Rank {
         return order;
     }
 
-    public char toSign() {
-        switch (this) {
-            case DEUCE: return '2';
-            case THREE: return '3';
-            case FOUR: return '4';
-            case FIVE: return '5';
-            case SIX: return '6';
-            case SEVEN: return '7';
-            case EIGHT: return '8';
-            case NINE: return '9';
-            default: return toString().charAt(0);
+    public static Rank fromChar(char sign) {
+        switch (sign) {
+            case '2': return DEUCE;
+            case '3': return THREE;
+            case '4': return FOUR;
+            case '5': return FIVE;
+            case '6': return SIX;
+            case '7': return SEVEN;
+            case '8': return EIGHT;
+            case '9': return NINE;
+            case 'T': return TEN;
+            case 'J': return JACK;
+            case 'Q': return QUEEN;
+            case 'K': return KING;
+            default: return ACE;
         }
+    }
+
+    @Override
+    public int compare(Rank r1, Rank r2) {
+        return r1.getOrder() - r2.getOrder();
     }
 }
